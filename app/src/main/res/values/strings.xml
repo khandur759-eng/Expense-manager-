@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Expense Manager</string>
+    <string name="shortcut_add_expense_short">Add Expense</string>
+    <string name="shortcut_add_expense_long">Quickly add a new expense</string>
+</resources>
