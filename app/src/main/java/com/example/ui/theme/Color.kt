@@ -16,3 +16,9 @@ val Emerald700 = Color(0xFF047857)
 val Red600 = Color(0xFFDC2626)
 val White = Color(0xFFFFFFFF)
 
+// High-contrast crisp borders & dividers for sharp clarity
+val BorderCrisp = Color(0xFFCBD5E1) // Slate 300: well-defined, sharp borders
+val BorderMedium = Color(0xFFB0BDCE) // Slate 350: accented borders
+val BorderSubtle = Color(0xFFE2E8F0) // Slate 200
+val DividerLine = Color(0xFFE2E8F0)  // Slate 200: clearly visible divider
+

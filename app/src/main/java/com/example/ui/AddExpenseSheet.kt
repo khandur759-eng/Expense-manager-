@@ -50,6 +50,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.model.ExpenseCategories
+import com.example.ui.theme.BorderCrisp
+import com.example.ui.theme.DividerLine
 import com.example.ui.theme.Slate100
 import com.example.ui.theme.Slate200
 import com.example.ui.theme.Slate300
@@ -58,6 +60,7 @@ import com.example.ui.theme.Slate50
 import com.example.ui.theme.Slate500
 import com.example.ui.theme.Slate600
 import com.example.ui.theme.Slate700
+import com.example.ui.theme.Slate800
 import com.example.ui.theme.Slate900
 import com.example.util.Formatters
 
@@ -123,7 +126,7 @@ fun AddExpenseSheet(
                         .size(36.dp)
                         .clip(RoundedCornerShape(12.dp))
                         .background(Slate50)
-                        .border(1.dp, Slate200, RoundedCornerShape(12.dp))
+                        .border(1.2.dp, BorderCrisp, RoundedCornerShape(12.dp))
                         .clickable(onClick = onDismiss)
                         .testTag("close_add_expense_button"),
                     contentAlignment = Alignment.Center
@@ -141,7 +144,7 @@ fun AddExpenseSheet(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(1.dp)
-                    .background(Slate100)
+                    .background(DividerLine)
             )
 
             // Scrollable Content
@@ -155,8 +158,8 @@ fun AddExpenseSheet(
                 Text(
                     text = "Amount (₹)",
                     fontSize = 12.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = Slate700
+                    fontWeight = FontWeight.SemiBold,
+                    color = Slate800
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
@@ -166,7 +169,7 @@ fun AddExpenseSheet(
                         .height(56.dp)
                         .clip(RoundedCornerShape(12.dp))
                         .background(Color.White)
-                        .border(1.dp, Slate200, RoundedCornerShape(12.dp))
+                        .border(1.2.dp, BorderCrisp, RoundedCornerShape(12.dp))
                         .padding(horizontal = 14.dp),
                     contentAlignment = Alignment.CenterStart
                 ) {
@@ -177,8 +180,8 @@ fun AddExpenseSheet(
                         Text(
                             text = "₹",
                             fontSize = 20.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = Slate400,
+                            fontWeight = FontWeight.Bold,
+                            color = Slate700,
                             modifier = Modifier.padding(end = 8.dp)
                         )
 
@@ -208,7 +211,7 @@ fun AddExpenseSheet(
                                         text = "0",
                                         fontSize = 22.sp,
                                         fontWeight = FontWeight.SemiBold,
-                                        color = Slate300
+                                        color = Slate400
                                     )
                                 }
                                 innerTextField()
@@ -223,8 +226,8 @@ fun AddExpenseSheet(
                 Text(
                     text = "Select Category",
                     fontSize = 12.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = Slate700
+                    fontWeight = FontWeight.SemiBold,
+                    color = Slate800
                 )
                 Spacer(modifier = Modifier.height(10.dp))
 
@@ -265,8 +268,8 @@ fun AddExpenseSheet(
                 Text(
                     text = "Note (optional)",
                     fontSize = 12.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = Slate700
+                    fontWeight = FontWeight.SemiBold,
+                    color = Slate800
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
@@ -276,7 +279,7 @@ fun AddExpenseSheet(
                         .height(48.dp)
                         .clip(RoundedCornerShape(12.dp))
                         .background(Color.White)
-                        .border(1.dp, Slate200, RoundedCornerShape(12.dp))
+                        .border(1.2.dp, BorderCrisp, RoundedCornerShape(12.dp))
                         .padding(horizontal = 14.dp),
                     contentAlignment = Alignment.CenterStart
                 ) {
@@ -299,7 +302,7 @@ fun AddExpenseSheet(
                                     text = "e.g. Groceries, Fuel, Rent",
                                     fontSize = 14.sp,
                                     fontWeight = FontWeight.Normal,
-                                    color = Slate400
+                                    color = Slate500
                                 )
                             }
                             innerTextField()
@@ -313,7 +316,7 @@ fun AddExpenseSheet(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(1.dp)
-                    .background(Slate100)
+                    .background(DividerLine)
             )
 
             Row(
@@ -327,19 +330,19 @@ fun AddExpenseSheet(
                     onClick = onDismiss,
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Slate50,
-                        contentColor = Slate700
+                        contentColor = Slate800
                     ),
                     shape = RoundedCornerShape(12.dp),
                     modifier = Modifier
                         .weight(1f)
                         .height(48.dp)
-                        .border(1.dp, Slate200, RoundedCornerShape(12.dp))
+                        .border(1.2.dp, BorderCrisp, RoundedCornerShape(12.dp))
                         .testTag("cancel_add_expense_button")
                 ) {
                     Text(
                         text = "Cancel",
                         fontSize = 14.sp,
-                        fontWeight = FontWeight.Medium
+                        fontWeight = FontWeight.SemiBold
                     )
                 }
 
@@ -383,32 +386,41 @@ private fun CategoryButton(
     modifier: Modifier = Modifier
 ) {
     val bgColor = if (isSelected) Slate900 else Color.White
-    val borderColor = if (isSelected) Slate900 else Slate200
-    val textColor = if (isSelected) Color.White else Slate700
-    val iconColor = if (isSelected) Color.White else Slate600
+    val borderColor = if (isSelected) Slate900 else BorderCrisp
+    val textColor = if (isSelected) Color.White else Slate800
+    val iconBoxBg = if (isSelected) category.iconColor else category.backgroundColor
+    val iconTint = if (isSelected) Color.White else category.iconColor
 
     Row(
         modifier = modifier
-            .height(54.dp)
-            .clip(RoundedCornerShape(12.dp))
+            .height(56.dp)
+            .clip(RoundedCornerShape(14.dp))
             .background(bgColor)
-            .border(1.dp, borderColor, RoundedCornerShape(12.dp))
+            .border(1.2.dp, borderColor, RoundedCornerShape(14.dp))
             .clickable(onClick = onClick)
             .padding(horizontal = 12.dp)
             .testTag("category_button_${category.id}"),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        Icon(
-            imageVector = category.icon,
-            contentDescription = category.label,
-            tint = iconColor,
-            modifier = Modifier.size(18.dp)
-        )
+        Box(
+            modifier = Modifier
+                .size(34.dp)
+                .clip(RoundedCornerShape(10.dp))
+                .background(iconBoxBg),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = category.icon,
+                contentDescription = category.label,
+                tint = iconTint,
+                modifier = Modifier.size(18.dp)
+            )
+        }
         Text(
             text = category.label,
             fontSize = 13.sp,
-            fontWeight = FontWeight.Medium,
+            fontWeight = FontWeight.SemiBold,
             color = textColor,
             maxLines = 1
         )

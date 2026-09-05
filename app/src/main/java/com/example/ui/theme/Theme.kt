@@ -26,9 +26,9 @@ private val LightColorScheme =
     onSurface = Slate900,
     background = Color.White,
     onBackground = Slate900,
-    outline = Slate200,
+    outline = BorderCrisp,
     surfaceVariant = Slate50,
-    onSurfaceVariant = Slate600
+    onSurfaceVariant = Slate700
   )
 
 @Composable

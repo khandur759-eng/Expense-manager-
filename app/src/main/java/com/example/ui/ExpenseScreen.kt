@@ -47,6 +47,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
@@ -62,6 +64,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.R
 import com.example.data.Expense
 import com.example.model.getCategoryById
+import com.example.ui.theme.BorderCrisp
+import com.example.ui.theme.BorderSubtle
+import com.example.ui.theme.DividerLine
 import com.example.ui.theme.Emerald700
 import com.example.ui.theme.Red600
 import com.example.ui.theme.Slate100
@@ -105,7 +110,7 @@ fun ExpenseScreen(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(Color(0xFFF8FAFC))
     ) {
         LazyColumn(
             modifier = Modifier
@@ -128,34 +133,57 @@ fun ExpenseScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
+                        // 3D Elevated Logo Tile Matching Reference
                         Box(
                             modifier = Modifier
-                                .size(36.dp)
-                                .clip(RoundedCornerShape(12.dp))
-                                .background(Slate900),
+                                .size(42.dp)
+                                .shadow(
+                                    elevation = 6.dp,
+                                    shape = RoundedCornerShape(13.dp),
+                                    ambientColor = Color(0x350A0F1D),
+                                    spotColor = Color(0x500A0F1D)
+                                )
+                                .clip(RoundedCornerShape(13.dp))
+                                .background(
+                                    brush = Brush.verticalGradient(
+                                        colors = listOf(
+                                            Color(0xFF161E2E),
+                                            Color(0xFF0A0F1D)
+                                        )
+                                    )
+                                )
+                                .border(
+                                    width = 1.dp,
+                                    brush = Brush.verticalGradient(
+                                        colors = listOf(
+                                            Color(0xFF38455B),
+                                            Color(0xFF161E2E)
+                                        )
+                                    ),
+                                    shape = RoundedCornerShape(13.dp)
+                                ),
                             contentAlignment = Alignment.Center
                         ) {
-                            Icon(
-                                imageVector = Icons.Default.AccountBalanceWallet,
-                                contentDescription = null,
-                                tint = Color.White,
-                                modifier = Modifier.size(18.dp)
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_app_wallet_logo),
+                                contentDescription = "Expense Manager Logo",
+                                modifier = Modifier.size(26.dp)
                             )
                         }
 
                         Column {
                             Text(
                                 text = "Expense Manager",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 17.sp,
+                                fontWeight = FontWeight.Bold,
                                 color = Slate900
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Text(
                                 text = "Monthly budget overview",
                                 fontSize = 12.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = Slate500
+                                fontWeight = FontWeight.SemiBold,
+                                color = Slate600
                             )
                         }
                     }
@@ -164,79 +192,62 @@ fun ExpenseScreen(
                     Box(
                         modifier = Modifier
                             .height(32.dp)
+                            .shadow(2.dp, RoundedCornerShape(16.dp), ambientColor = Color(0x0A0F172A), spotColor = Color(0x120F172A))
                             .clip(RoundedCornerShape(16.dp))
-                            .background(Slate50)
-                            .border(1.dp, Slate200, RoundedCornerShape(16.dp))
+                            .background(Color.White)
+                            .border(1.2.dp, BorderCrisp, RoundedCornerShape(16.dp))
                             .padding(horizontal = 12.dp),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
                             text = "${expenses.size} ${if (expenses.size == 1) "expense" else "expenses"}",
                             fontSize = 12.sp,
-                            fontWeight = FontWeight.Medium,
-                            color = Slate600
+                            fontWeight = FontWeight.Bold,
+                            color = Slate800
                         )
                     }
                 }
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(1.dp)
-                        .background(Slate100)
-                )
-
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(6.dp))
             }
 
-            // Monthly Salary Section
+            // Monthly Salary Section (3D Card Effect)
             item {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(12.dp))
+                        .shadow(
+                            elevation = 6.dp,
+                            shape = RoundedCornerShape(20.dp),
+                            ambientColor = Color(0x120F172A),
+                            spotColor = Color(0x1E0F172A)
+                        )
+                        .clip(RoundedCornerShape(20.dp))
                         .background(Color.White)
-                        .border(1.dp, Slate200, RoundedCornerShape(12.dp))
-                        .padding(20.dp)
+                        .border(1.2.dp, BorderCrisp, RoundedCornerShape(20.dp))
+                        .padding(22.dp)
                 ) {
                     Column {
-                        Text(
-                            text = "MONTHLY SALARY",
-                            fontSize = 11.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            letterSpacing = 1.sp,
-                            color = Slate500
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(
-                            text = "Set your monthly income to track balance.",
-                            fontSize = 13.sp,
-                            fontWeight = FontWeight.Medium,
-                            color = Slate600
-                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "MONTHLY SALARY",
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.Bold,
+                                letterSpacing = 1.2.sp,
+                                color = Slate600
+                            )
 
-                        Spacer(modifier = Modifier.height(16.dp))
-
-                        if (hasSalary) {
-                            // Display Salary + Edit button
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(12.dp)
-                            ) {
-                                Text(
-                                    text = Formatters.formatInr(salary),
-                                    fontSize = 32.sp,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = Slate900,
-                                    letterSpacing = (-0.5).sp
-                                )
-
+                            if (hasSalary) {
                                 Box(
                                     modifier = Modifier
                                         .height(28.dp)
                                         .clip(RoundedCornerShape(14.dp))
                                         .background(Slate100)
-                                        .border(1.dp, Slate200, RoundedCornerShape(14.dp))
+                                        .border(1.dp, BorderCrisp, RoundedCornerShape(14.dp))
                                         .clickable {
                                             salaryInput = salary.toString()
                                             isEditingSalary = true
@@ -248,11 +259,31 @@ fun ExpenseScreen(
                                     Text(
                                         text = "Edit",
                                         fontSize = 12.sp,
-                                        fontWeight = FontWeight.Medium,
-                                        color = Slate600
+                                        fontWeight = FontWeight.Bold,
+                                        color = Slate800
                                     )
                                 }
                             }
+                        }
+
+                        Spacer(modifier = Modifier.height(6.dp))
+                        Text(
+                            text = "Set your monthly income to track balance.",
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = Slate700
+                        )
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        if (hasSalary) {
+                            Text(
+                                text = Formatters.formatInr(salary),
+                                fontSize = 32.sp,
+                                fontWeight = FontWeight.ExtraBold,
+                                color = Slate900,
+                                letterSpacing = (-0.5).sp
+                            )
 
                             Spacer(modifier = Modifier.height(16.dp))
 
@@ -260,30 +291,31 @@ fun ExpenseScreen(
                             val spentPercentText = (spentPercentage * 100).toInt()
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
                                     text = "Spent $spentPercentText%",
-                                    fontSize = 11.sp,
-                                    fontWeight = FontWeight.Medium,
-                                    color = Slate500
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Slate800
                                 )
                                 Text(
                                     text = "${Formatters.formatInr(totalSpent)} of ${Formatters.formatInr(salary)}",
-                                    fontSize = 11.sp,
-                                    fontWeight = FontWeight.Medium,
-                                    color = Slate500
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = Slate600
                                 )
                             }
 
-                            Spacer(modifier = Modifier.height(6.dp))
+                            Spacer(modifier = Modifier.height(8.dp))
 
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(8.dp)
                                     .clip(RoundedCornerShape(4.dp))
-                                    .background(Slate100)
+                                    .background(Slate200)
                             ) {
                                 Box(
                                     modifier = Modifier
@@ -298,8 +330,8 @@ fun ExpenseScreen(
                             Text(
                                 text = "Enter Amount",
                                 fontSize = 12.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = Slate700
+                                fontWeight = FontWeight.Bold,
+                                color = Slate800
                             )
                             Spacer(modifier = Modifier.height(8.dp))
 
@@ -313,8 +345,8 @@ fun ExpenseScreen(
                                         .weight(1f)
                                         .height(48.dp)
                                         .clip(RoundedCornerShape(12.dp))
-                                        .background(Color.White)
-                                        .border(1.dp, Slate200, RoundedCornerShape(12.dp))
+                                        .background(Slate50)
+                                        .border(1.2.dp, BorderCrisp, RoundedCornerShape(12.dp))
                                         .padding(horizontal = 14.dp),
                                     contentAlignment = Alignment.CenterStart
                                 ) {
@@ -322,8 +354,8 @@ fun ExpenseScreen(
                                         Text(
                                             text = "₹",
                                             fontSize = 16.sp,
-                                            fontWeight = FontWeight.Medium,
-                                            color = Slate400,
+                                            fontWeight = FontWeight.Bold,
+                                            color = Slate700,
                                             modifier = Modifier.padding(end = 6.dp)
                                         )
 
@@ -340,7 +372,7 @@ fun ExpenseScreen(
                                                 .testTag("salary_input"),
                                             textStyle = TextStyle(
                                                 fontSize = 18.sp,
-                                                fontWeight = FontWeight.Medium,
+                                                fontWeight = FontWeight.SemiBold,
                                                 color = Slate900
                                             ),
                                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -352,7 +384,7 @@ fun ExpenseScreen(
                                                         text = "0",
                                                         fontSize = 18.sp,
                                                         fontWeight = FontWeight.Medium,
-                                                        color = Slate300
+                                                        color = Slate400
                                                     )
                                                 }
                                                 innerTextField()
@@ -385,7 +417,7 @@ fun ExpenseScreen(
                                     Text(
                                         text = "Save Salary",
                                         fontSize = 13.sp,
-                                        fontWeight = FontWeight.Medium
+                                        fontWeight = FontWeight.SemiBold
                                     )
                                 }
                             }
@@ -393,88 +425,120 @@ fun ExpenseScreen(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(14.dp))
+                Spacer(modifier = Modifier.height(16.dp))
             }
 
-            // Stat Cards: Total Spent & Remaining Balance (2-column grid)
+            // Stat Cards: Total Spent & Remaining Balance (3D Elevation)
             item {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    horizontalArrangement = Arrangement.spacedBy(14.dp)
                 ) {
                     // Total Spent Card
                     Box(
                         modifier = Modifier
                             .weight(1f)
-                            .clip(RoundedCornerShape(12.dp))
+                            .shadow(
+                                elevation = 5.dp,
+                                shape = RoundedCornerShape(18.dp),
+                                ambientColor = Color(0x100F172A),
+                                spotColor = Color(0x180F172A)
+                            )
+                            .clip(RoundedCornerShape(18.dp))
                             .background(Color.White)
-                            .border(1.dp, Slate200, RoundedCornerShape(12.dp))
+                            .border(1.2.dp, BorderCrisp, RoundedCornerShape(18.dp))
                             .padding(16.dp)
                     ) {
                         Column {
                             Text(
                                 text = "TOTAL SPENT",
                                 fontSize = 11.sp,
-                                fontWeight = FontWeight.SemiBold,
+                                fontWeight = FontWeight.Bold,
                                 letterSpacing = 1.sp,
-                                color = Slate500
+                                color = Slate600
                             )
                             Spacer(modifier = Modifier.height(10.dp))
                             Text(
                                 text = if (totalSpent == 0L) "₹0" else Formatters.formatInr(totalSpent),
                                 fontSize = 22.sp,
-                                fontWeight = FontWeight.SemiBold,
+                                fontWeight = FontWeight.ExtraBold,
                                 color = Slate900,
                                 letterSpacing = (-0.5).sp
                             )
-                            Spacer(modifier = Modifier.height(6.dp))
-                            Text(
-                                text = "${expenses.size} transactions",
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = Slate500
-                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Box(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .background(Slate100)
+                                    .border(1.dp, BorderSubtle, RoundedCornerShape(8.dp))
+                                    .padding(horizontal = 8.dp, vertical = 3.dp)
+                            ) {
+                                Text(
+                                    text = "${expenses.size} transactions",
+                                    fontSize = 11.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = Slate700
+                                )
+                            }
                         }
                     }
 
                     // Remaining Balance Card
                     val isNegative = remainingBalance < 0
-                    val balanceColor = if (isNegative) Red600 else Emerald700
+                    val balanceColor = if (isNegative) Red600 else Color(0xFF059669)
+                    val statusBgColor = if (isNegative) Color(0xFFFEF2F2) else Color(0xFFECFDF5)
+                    val statusTextColor = if (isNegative) Red600 else Color(0xFF059669)
+                    val statusText = when {
+                        isNegative -> "Over budget"
+                        salary > 0L -> "Available"
+                        else -> "Set salary"
+                    }
+
                     Box(
                         modifier = Modifier
                             .weight(1f)
-                            .clip(RoundedCornerShape(12.dp))
+                            .shadow(
+                                elevation = 5.dp,
+                                shape = RoundedCornerShape(18.dp),
+                                ambientColor = Color(0x100F172A),
+                                spotColor = Color(0x180F172A)
+                            )
+                            .clip(RoundedCornerShape(18.dp))
                             .background(Color.White)
-                            .border(1.dp, Slate200, RoundedCornerShape(12.dp))
+                            .border(1.2.dp, BorderCrisp, RoundedCornerShape(18.dp))
                             .padding(16.dp)
                     ) {
                         Column {
                             Text(
                                 text = "REMAINING BALANCE",
                                 fontSize = 11.sp,
-                                fontWeight = FontWeight.SemiBold,
+                                fontWeight = FontWeight.Bold,
                                 letterSpacing = 1.sp,
-                                color = Slate500
+                                color = Slate600
                             )
                             Spacer(modifier = Modifier.height(10.dp))
                             Text(
                                 text = if (salary == 0L) "₹0" else Formatters.formatInr(remainingBalance),
                                 fontSize = 22.sp,
-                                fontWeight = FontWeight.SemiBold,
+                                fontWeight = FontWeight.ExtraBold,
                                 color = balanceColor,
                                 letterSpacing = (-0.5).sp
                             )
-                            Spacer(modifier = Modifier.height(6.dp))
-                            Text(
-                                text = when {
-                                    isNegative -> "Over budget"
-                                    salary > 0L -> "Available"
-                                    else -> "Set salary to track"
-                                },
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = balanceColor
-                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Box(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .background(statusBgColor)
+                                    .border(1.dp, statusTextColor.copy(alpha = 0.3f), RoundedCornerShape(8.dp))
+                                    .padding(horizontal = 8.dp, vertical = 3.dp)
+                            ) {
+                                Text(
+                                    text = statusText,
+                                    fontSize = 11.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = statusTextColor
+                                )
+                            }
                         }
                     }
                 }
@@ -491,8 +555,8 @@ fun ExpenseScreen(
                 ) {
                     Text(
                         text = "Expenses",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
                         color = Slate900
                     )
 
@@ -500,8 +564,8 @@ fun ExpenseScreen(
                         Text(
                             text = "Clear all",
                             fontSize = 12.sp,
-                            fontWeight = FontWeight.Medium,
-                            color = Slate500,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Slate700,
                             modifier = Modifier
                                 .clickable { showClearAllConfirmation = true }
                                 .padding(4.dp)
@@ -510,18 +574,24 @@ fun ExpenseScreen(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(12.dp))
             }
 
-            // Empty state or Expense List
+            // Empty state or Expense List (3D Elevated Container)
             if (expenses.isEmpty()) {
                 item {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clip(RoundedCornerShape(12.dp))
+                            .shadow(
+                                elevation = 4.dp,
+                                shape = RoundedCornerShape(18.dp),
+                                ambientColor = Color(0x100F172A),
+                                spotColor = Color(0x160F172A)
+                            )
+                            .clip(RoundedCornerShape(18.dp))
                             .background(Color.White)
-                            .border(1.dp, Slate200, RoundedCornerShape(12.dp))
+                            .border(1.2.dp, BorderCrisp, RoundedCornerShape(18.dp))
                             .padding(vertical = 36.dp, horizontal = 20.dp),
                         contentAlignment = Alignment.Center
                     ) {
@@ -530,17 +600,17 @@ fun ExpenseScreen(
                         ) {
                             Box(
                                 modifier = Modifier
-                                    .size(42.dp)
-                                    .clip(RoundedCornerShape(12.dp))
-                                    .background(Slate50)
-                                    .border(1.dp, Slate200, RoundedCornerShape(12.dp)),
+                                    .size(46.dp)
+                                    .clip(RoundedCornerShape(14.dp))
+                                    .background(Slate100)
+                                    .border(1.2.dp, BorderCrisp, RoundedCornerShape(14.dp)),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Receipt,
                                     contentDescription = null,
-                                    tint = Slate400,
-                                    modifier = Modifier.size(20.dp)
+                                    tint = Slate600,
+                                    modifier = Modifier.size(22.dp)
                                 )
                             }
 
@@ -549,8 +619,8 @@ fun ExpenseScreen(
                             Text(
                                 text = "No expenses yet. Tap Add Expense to get started.",
                                 fontSize = 13.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = Slate700
+                                fontWeight = FontWeight.Bold,
+                                color = Slate900
                             )
 
                             Spacer(modifier = Modifier.height(4.dp))
@@ -558,7 +628,8 @@ fun ExpenseScreen(
                             Text(
                                 text = "Your transactions will appear here.",
                                 fontSize = 12.sp,
-                                color = Slate500
+                                fontWeight = FontWeight.Medium,
+                                color = Slate600
                             )
                         }
                     }
@@ -566,14 +637,20 @@ fun ExpenseScreen(
                     Spacer(modifier = Modifier.height(24.dp))
                 }
             } else {
-                // List of expenses with clean border container and dividers
+                // List of expenses with 3D elevated white card container
                 item {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clip(RoundedCornerShape(12.dp))
+                            .shadow(
+                                elevation = 4.dp,
+                                shape = RoundedCornerShape(18.dp),
+                                ambientColor = Color(0x100F172A),
+                                spotColor = Color(0x160F172A)
+                            )
+                            .clip(RoundedCornerShape(18.dp))
                             .background(Color.White)
-                            .border(1.dp, Slate200, RoundedCornerShape(12.dp))
+                            .border(1.2.dp, BorderCrisp, RoundedCornerShape(18.dp))
                     ) {
                         Column {
                             expenses.forEachIndexed { index, expense ->
@@ -586,7 +663,7 @@ fun ExpenseScreen(
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .height(1.dp)
-                                            .background(Slate100)
+                                            .background(DividerLine)
                                     )
                                 }
                             }
@@ -597,7 +674,7 @@ fun ExpenseScreen(
                 }
             }
 
-            // Bottom Add Expense Button
+            // Bottom Add Expense Button with 3D Elevation
             item {
                 Button(
                     onClick = { showAddExpense = true },
@@ -605,50 +682,66 @@ fun ExpenseScreen(
                         containerColor = Slate900,
                         contentColor = Color.White
                     ),
-                    shape = RoundedCornerShape(12.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    elevation = ButtonDefaults.buttonElevation(
+                        defaultElevation = 6.dp,
+                        pressedElevation = 2.dp
+                    ),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(54.dp)
+                        .shadow(6.dp, RoundedCornerShape(16.dp), ambientColor = Color(0x140F172A), spotColor = Color(0x280F172A))
                         .testTag("add_expense_fab_button")
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
                         contentDescription = "Add",
                         tint = Color.White,
-                        modifier = Modifier.size(16.dp)
+                        modifier = Modifier.size(18.dp)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = "Add Expense",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Medium
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.SemiBold
                     )
                 }
 
                 if (onRequestAddPinShortcut != null) {
-                    Spacer(modifier = Modifier.height(10.dp))
+                    Spacer(modifier = Modifier.height(12.dp))
                     Button(
                         onClick = onRequestAddPinShortcut,
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Slate50,
-                            contentColor = Slate700
+                            containerColor = Color.White,
+                            contentColor = Slate800
                         ),
-                        shape = RoundedCornerShape(12.dp),
+                        shape = RoundedCornerShape(14.dp),
+                        elevation = ButtonDefaults.buttonElevation(
+                            defaultElevation = 2.dp,
+                            pressedElevation = 1.dp
+                        ),
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(46.dp)
-                            .border(1.dp, Slate200, RoundedCornerShape(12.dp))
+                            .shadow(2.dp, RoundedCornerShape(14.dp), ambientColor = Color(0x0A0F172A), spotColor = Color(0x100F172A))
+                            .border(1.2.dp, BorderCrisp, RoundedCornerShape(14.dp))
                             .testTag("pin_shortcut_button")
                     ) {
                         Text(
                             text = "Add 'Quick Expense' to Home Screen",
                             fontSize = 13.sp,
-                            fontWeight = FontWeight.Medium
+                            fontWeight = FontWeight.SemiBold
                         )
                     }
                 }
 
                 Spacer(modifier = Modifier.height(28.dp))
+            }
+
+            // Monthly Spending Breakdown by Category (Bar Chart at bottom)
+            item {
+                CategorySpendingBarChart(expenses = expenses)
+                Spacer(modifier = Modifier.height(32.dp))
                 Spacer(modifier = Modifier.navigationBarsPadding())
             }
         }
@@ -684,7 +777,7 @@ fun ExpenseScreen(
                     Text(
                         text = "Are you sure you want to delete all ${expenses.size} expenses? This action cannot be undone.",
                         fontSize = 14.sp,
-                        color = Slate600
+                        color = Slate700
                     )
                 },
                 confirmButton = {
@@ -715,8 +808,8 @@ fun ExpenseScreen(
                     ) {
                         Text(
                             text = "Cancel",
-                            color = Slate600,
-                            fontWeight = FontWeight.Medium,
+                            color = Slate700,
+                            fontWeight = FontWeight.SemiBold,
                             fontSize = 13.sp
                         )
                     }
@@ -744,7 +837,7 @@ fun ExpenseScreen(
                     Text(
                         text = "Are you sure you want to delete the ${Formatters.formatInr(targetExpense.amount)} expense for ${targetExpense.category}$noteDescription?",
                         fontSize = 14.sp,
-                        color = Slate600
+                        color = Slate700
                     )
                 },
                 confirmButton = {
@@ -776,8 +869,8 @@ fun ExpenseScreen(
                     ) {
                         Text(
                             text = "Cancel",
-                            color = Slate600,
-                            fontWeight = FontWeight.Medium,
+                            color = Slate700,
+                            fontWeight = FontWeight.SemiBold,
                             fontSize = 13.sp
                         )
                     }
@@ -800,25 +893,25 @@ private fun ExpenseRowItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(14.dp)
+            .padding(horizontal = 16.dp, vertical = 14.dp)
             .testTag("expense_row_${expense.id}"),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
+        horizontalArrangement = Arrangement.spacedBy(14.dp)
     ) {
-        // Category Icon Box
+        // Category Icon Box with custom category background and icon tint
         Box(
             modifier = Modifier
-                .size(40.dp)
-                .clip(RoundedCornerShape(12.dp))
-                .background(Slate50)
-                .border(1.dp, Slate200, RoundedCornerShape(12.dp)),
+                .size(44.dp)
+                .clip(RoundedCornerShape(14.dp))
+                .background(category.backgroundColor)
+                .border(1.2.dp, category.iconColor.copy(alpha = 0.35f), RoundedCornerShape(14.dp)),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = category.icon,
                 contentDescription = category.label,
-                tint = Slate700,
-                modifier = Modifier.size(18.dp)
+                tint = category.iconColor,
+                modifier = Modifier.size(22.dp)
             )
         }
 
@@ -831,68 +924,72 @@ private fun ExpenseRowItem(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(
-                    text = Formatters.formatInr(expense.amount),
-                    fontSize = 14.sp,
+                    text = category.label,
+                    fontSize = 15.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = Slate900
                 )
-
-                Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(10.dp))
-                        .background(Slate50)
-                        .border(1.dp, Slate200, RoundedCornerShape(10.dp))
-                        .padding(horizontal = 8.dp, vertical = 2.dp)
-                ) {
-                    Text(
-                        text = category.label,
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = Slate600
-                    )
-                }
             }
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(3.dp))
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
+                if (expense.note.isNotBlank()) {
+                    Text(
+                        text = expense.note,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = Slate700,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f, fill = false)
+                    )
+                    Text(
+                        text = "·",
+                        fontSize = 12.sp,
+                        color = Slate500
+                    )
+                }
                 Text(
-                    text = if (expense.note.isNotBlank()) expense.note else category.label,
+                    text = Formatters.formatDate(expense.date),
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Medium,
-                    color = Slate600,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(1f, fill = false)
-                )
-                Text(
-                    text = "· ${Formatters.formatDate(expense.date)}",
-                    fontSize = 11.sp,
-                    color = Slate400
+                    color = Slate600
                 )
             }
         }
 
-        // Remove button
-        Box(
-            modifier = Modifier
-                .size(32.dp)
-                .clip(RoundedCornerShape(10.dp))
-                .background(Color.White)
-                .border(1.dp, Slate200, RoundedCornerShape(10.dp))
-                .clickable(onClick = onDelete)
-                .testTag("delete_expense_${expense.id}"),
-            contentAlignment = Alignment.Center
+        // Amount and delete
+        Column(
+            horizontalAlignment = Alignment.End
         ) {
-            Icon(
-                imageVector = Icons.Default.Close,
-                contentDescription = "Remove expense",
-                tint = Slate500,
-                modifier = Modifier.size(14.dp)
+            Text(
+                text = Formatters.formatInr(expense.amount),
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Bold,
+                color = Slate900
             )
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Box(
+                modifier = Modifier
+                    .size(24.dp)
+                    .clip(RoundedCornerShape(6.dp))
+                    .clickable(onClick = onDelete)
+                    .testTag("delete_expense_${expense.id}"),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = "Remove expense",
+                    tint = Slate500,
+                    modifier = Modifier.size(14.dp)
+                )
+            }
         }
     }
 }
